@@ -1,0 +1,30 @@
+Hey guys, sorry I'm not here today
+
+To run this,
+
+1) load the unpacked extension into chrome (hit Reload every time you make a code change)
+
+2) Go to a page like xkcd.com (only a few images to make it easy and fast)
+
+3) It will take around 10 seconds but the tab will pop up an alert
+
+The idea is that the only work left is in the content script to take the state data
+and calculate the difference in total size. Better to just do that in Dart.
+
+Background.js requires Dan' URL pattern to be inserted at the TODO
+
+
+
+Overview of what I did:
+
+I discovered we had to do all our webrequest listening
+in background.js, not the contentscript.
+
+Part I is it finishes listening for the requests
+Part II is it does the Ajax requests to JpegMini to find out the sizes
+
+Finally the state is two objects that is sent to the contentscript
+for calculation and display to the user
+
+
+
