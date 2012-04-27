@@ -1,0 +1,16 @@
+{
+    "name": "ImageTension",
+    "version": "0.0.1",
+    "description": "",
+    "icons": {
+        "16": "",
+        "48": "",
+        "128": "" },
+    "permissions": [
+
+    ],
+    "background_page" : "background.html",
+    "content_scripts": [
+
+    ]
+}
