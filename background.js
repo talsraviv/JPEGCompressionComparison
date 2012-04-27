@@ -55,8 +55,14 @@ chrome.webRequest.onResponseStarted.addListener(
                             calculate_jpeg_mini(key, function(){
                                 //when this is done, log the state
                                 log('DONE')
-                                log(JSON.parse(localStorage.state));
-                                chrome.tabs.sendRequest(tab.id, {state:localStorage.state});
+                                var state_to_send = JSON.parse(localStorage.state)
+                                //Send to the contentscript of our tab
+                                chrome.tabs.sendRequest(
+                                    tab.id,
+                                    {
+                                        state: JSON.stringify(state_to_send[key]) //Send only the relevant data
+                                    }
+                                );
                             });
                         }
                     }
