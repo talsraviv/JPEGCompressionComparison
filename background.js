@@ -76,40 +76,40 @@ chrome.webRequest.onResponseStarted.addListener(
 
 function calculate_jpeg_mini(key, callback){ //callback is called when done
     log('calculating jpeg mini version');
-    var request_counter = 0;
-    var outstanding_requests = {};
+    var requests_made = 0;
+    var requests_received = 0;
     var original_urls_and_sizes = state[key]['original'];
     for (var url in original_urls_and_sizes){
         //TODO: For every url, convert it to jpegMINI Dan URL
         //for example: http://www.logostage.com/logos/Google.png => http://jpegmini.com/convert?url=http://www.logostage.com/logos/Google.png
         //var new_url = "http://jpegmini.com/convert?url=" + old_url
         var jpegMiniURL = url; //PLACEHOLDER
-        var request_id = 'request_number_' + (request_counter++);
-        outstanding_requests[request_id] = 'true';
-        log('Made ' + request_id)
-        log(outstanding_requests)
         //For every url, make a AJAX HEAD request and save Content-length
         var xhr = new XMLHttpRequest();
         xhr.open('HEAD', jpegMiniURL, true);
-        xhr.onreadystatechange = function(this_xhr, request_id){
+        xhr.onreadystatechange = function(this_xhr, save_url){
             return function(event){
                 if ( this_xhr.readyState == 4 ) {
                     if ( this_xhr.status == 200 ) {
                         //log(this_xhr)
                         //Save the value of the jpegMini size
-                        state[key]['jpegmini'][jpegMiniURL] = this_xhr.getResponseHeader('Content-Length');
+                        state[key]['jpegmini'][save_url] = this_xhr.getResponseHeader('Content-Length');
                         localStorage.state = JSON.stringify(state);
                     } else {
                         //log(this_xhr)
                         //error
                     }
-                    log('Received ' + request_id)
-                    //delete outstanding_requests[request_id];
-                    log(outstanding_requests);
-                    //TODO: Call callback() for the rest of the program to return to the contentscript
+                    requests_received++;
+                    log('received: ' + requests_received)
+                    //ALL IMAGES HAVE BEEN RETRIEVED FROM SERVER
+                    if (requests_received === requests_made){
+                        callback();
+                    }
                 }
             };
-        }(xhr, request_id);
+        }(xhr, jpegMiniURL);
+        requests_made++;
+        log('made: ' + requests_made)
         xhr.send(null);
     }
 }
