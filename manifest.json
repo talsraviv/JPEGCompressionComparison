@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "description": "DART TLV Hackathon",
     "permissions": [
-        "tabs", "http://*/*"
+        "tabs",
+        "webRequest",
+        "*://*/*"
     ],
     "background_page" : "background.html",
     "content_scripts": [
@@ -11,9 +13,5 @@
             "matches": ["http://*/*", "https://*/*"],
             "js": ["contentscript.js"]
         }
-    ],
-    "browser_action": {
-        "default_icon": "dart19.png",
-        "default_title": "ImageTension GO!"
-    }
+    ]
 }
