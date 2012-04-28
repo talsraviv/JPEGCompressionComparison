@@ -15,8 +15,8 @@ chrome.extension.onRequest.addListener(
                 //IF we have a url appearing in both objects that we can compare
                 if (original_url in original_vs_jpegmini['jpegmini']){
                     //ADD IT TO BOTH SUMS
-                    total_original_bytes += original_vs_jpegmini['original'][original_url]
-                    total_jpeg_mini_bytes += original_vs_jpegmini['jpegmini'][original_url]
+                    total_original_bytes += parseInt(original_vs_jpegmini['original'][original_url])
+                    total_jpeg_mini_bytes += parseInt(original_vs_jpegmini['jpegmini'][original_url])
                 }
             }
             log(original_vs_jpegmini);
